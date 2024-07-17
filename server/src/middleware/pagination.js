@@ -5,6 +5,7 @@
  */
 
 import { MAX_PAGINATION_LIMIT, UNDEFINED } from "../utils/constants.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 // Middleware to handle pagination and limits
 export const handlePagination = (req, res, next) => {
