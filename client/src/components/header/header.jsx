@@ -1,7 +1,26 @@
+import { useCreateScrapeMutation } from "@/lib/slices/service";
+import { isValidDomain } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 const Header = () => {
+  const [createScrape, { data, isSuccess, isError, isLoading, error }] =
+    useCreateScrapeMutation();
+
+  const [url, setUrl] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isValidDomain(url)) createScrape({ url });
+    else toast.error("Invalid URL");
+  };
+
+  useEffect(() => {
+    if (data) console.log(data);
+  }, [isError, isLoading, isSuccess, data]);
   return (
     <div className=" bg-white py-4 sticky top-0 z-10 border border-b-2">
-      <form className="max-w-screen-xl m-auto sm:px-5 ">
+      <form className="max-w-screen-xl m-auto sm:px-5 " onSubmit={handleSubmit}>
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only "
@@ -28,9 +47,11 @@ const Header = () => {
           </div>
           <input
             type="search"
-            id="default-search"
+            id="search"
             className=" block pl-9 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-gray-500"
             placeholder="Enter domain name"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
             required
           />
           <button

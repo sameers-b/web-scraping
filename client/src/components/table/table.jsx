@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-
-const Table = () => {
+import { FaFacebook } from "react-icons/fa6";
+import { FaTwitter, FaLinkedin } from "react-icons/fa";
+const Table = ({ data, page, limit }) => {
   const tableHeader = [
     "Company",
     "SOCIAL PROFILE",
@@ -49,7 +50,7 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {["", "", ""].map((row, i) => (
+            {data?.data?.data.map((row, i) => (
               <tr className="bg-white border-b  hover:bg-gray-50 " key={i}>
                 <td className="w-4 p-4">
                   <div className="flex items-center">
@@ -70,20 +71,32 @@ const Table = () => {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  <Link to="/scrape/1">Apple MacBook Pro 17</Link>
+                  <Link to={`/scrape/${row?._id}`}>
+                    <img
+                      src={row?.logoUrl}
+                      className="bg-black h-10 w-20 object-contain rounded-md px-1"
+                    />
+                  </Link>
                 </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
                 <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </a>
+                  <div className="flex gap-3">
+                    <Link to={row?.socialLinks?.facebook} target="_blank">
+                      <FaFacebook size={20} />
+                    </Link>
+                    <Link to={row?.socialLinks?.twitter} target="_blank">
+                      <FaTwitter size={20} />
+                    </Link>
+                    <Link to={row?.socialLinks?.linkedin} target="_blank">
+                      <FaLinkedin size={20} />
+                    </Link>
+                  </div>
                 </td>
-                <td className="px-6 py-4">$2999</td>
+                <td className="px-6 py-4 text-elicps w-80">
+                  {row?.description || "N/A"}
+                </td>
+                <td className="px-6 py-4">{row?.address || "N/A"}</td>
+                <td className="px-6 py-4 min-w-44">{row?.phone || "N/A"}</td>
+                <td className="px-6 py-4">{row?.email || "N/A"}</td>
               </tr>
             ))}
           </tbody>
@@ -96,11 +109,11 @@ const Table = () => {
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
           Showing{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
-            1-10
+            {page}-{data?.data?.data.length}
           </span>{" "}
           of{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
-            1000
+            {data?.data?.totalCount}
           </span>
         </span>
         <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
@@ -112,16 +125,18 @@ const Table = () => {
               Previous
             </a>
           </li>
-          {["", "", "", ""].map((row, i) => (
-            <li key={i}>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                {i + 1}
-              </a>
-            </li>
-          ))}
+          {Array.from({ length: data?.data?.totalPages }, (x) => x + x).map(
+            (row, i) => (
+              <li key={i}>
+                <a
+                  href="#"
+                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  {i + 1}
+                </a>
+              </li>
+            )
+          )}
 
           <li>
             <a
