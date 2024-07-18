@@ -91,7 +91,11 @@ const DetailPage = () => {
                 <FiFacebook size={18} />
                 Facebook
               </span>
-              <a href={data?.data?.socialLinks?.facebook} target="_blank">
+              <a
+                href={data?.data?.socialLinks?.facebook}
+                target="_blank"
+                className="border overflow-hidden"
+              >
                 {data?.data?.socialLinks?.facebook || "N/A"}
               </a>
             </div>
