@@ -2,6 +2,7 @@ import { useCreateScrapeMutation } from "@/lib/slices/service";
 import { isValidDomain } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Loader from "../loader/loader";
 
 const Header = () => {
   const [createScrape, { data, isSuccess, isError, isLoading, error }] =
@@ -17,7 +18,10 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (data) console.log(data);
+    if (isSuccess) toast.success(data?.message);
+    if (isError) {
+      toast.error(error?.data?.message);
+    }
   }, [isError, isLoading, isSuccess, data]);
   return (
     <div className=" bg-white py-4 sticky top-0 z-10 border border-b-2">
@@ -61,7 +65,7 @@ const Header = () => {
             className="text-[#6C2BD9]  bg-[#EDE5FF] hover:bg-purple-300 duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
             disabled={isLoading}
           >
-            Fetch & Save Details
+            {isLoading ? <Loader /> : "Fetch & Save Details"}
           </button>
         </div>
       </form>

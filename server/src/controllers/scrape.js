@@ -104,19 +104,12 @@ export const getScrapeData = asyncHandler(async (req, res) => {
 
 /**
  @desc - get all list of scraped data
- @param {number}- page
- @param {number}- limit
+ @query {number}- page
+ @query {number}- limit
  @return {object}- res, data, message, code, success, error
 */
 export const getScrapeList = asyncHandler(async (req, res) => {
   let { page, limit } = req.query;
-
-  // const list = await ScrapedDataModel.find()
-  //   .lean()
-  //   .skip(page > 0 ? (page - 1) * limit : 0)
-  //   .limit(limit)
-  //   .sort({ createdAt: -1 })
-  //   .select("-updatedAt -createdAt");
 
   const list = await ScrapedDataModel.aggregate([
     {
@@ -155,7 +148,6 @@ export const getScrapeList = asyncHandler(async (req, res) => {
 */
 export const getScrapeDataById = asyncHandler(async (req, res) => {
   let { scrapeId } = req.params;
-  console.log(scrapeId);
   const data = await ScrapedDataModel.findById(scrapeId)
     .lean()
     .select("-updatedAt -createdAt");

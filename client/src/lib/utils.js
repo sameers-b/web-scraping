@@ -6,6 +6,6 @@ export function cn(...inputs) {
 }
 
 export function isValidDomain(domain) {
-  const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]{1,63}\.)+[a-zA-Z]{2,6}$/;
+  const domainRegex = /^(?:(?:https?|ftp):\/\/)?(?:[\w-]+\.)+[a-z]{2,}$/i;
   return domainRegex.test(domain);
 }

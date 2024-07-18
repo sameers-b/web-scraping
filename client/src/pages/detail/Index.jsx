@@ -19,7 +19,7 @@ const DetailPage = () => {
     }
   }, [scrapeId]);
   return (
-    <div className="p-2">
+    <div className="p-2 m-auto max-w-screen-xl w-full">
       <div className="rounded-md shadow-md bg-white mt-1 sm:mt-3 p-5 flex flex-col sm:flex-row gap-4 sm:gap-7">
         <div className="">
           {/* logo */}
@@ -37,7 +37,7 @@ const DetailPage = () => {
                 <BsInfoCircle size={18} />
                 Description
               </span>
-              <span>{data?.data?.description || "N/A"}</span>
+              <span className="">{data?.data?.description || "N/A"}</span>
             </div>
             <span className="border hidden sm:block"></span>
             <div className="flex basis-1/2 flex-col gap-3">

@@ -7,6 +7,7 @@ export const Service = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
   }),
+  tagTypes: ["Scrape"],
   endpoints: (builder) => ({
     createScrape: builder.mutation({
       query: (body) => ({
@@ -14,13 +15,15 @@ export const Service = createApi({
         method: "POST",
         body: body,
       }),
+      invalidatesTags: ["Scrape"],
     }),
 
     scrapeList: builder.query({
-      query: (page = 1, limit = 10) => ({
+      query: ({ page = 1, limit = 10 }) => ({
         url: `${EndpointSlug.SCRAPE_LIST}?page=${page}&limit=${limit}`,
         method: "GET",
       }),
+      providesTags: ["Scrape"],
     }),
 
     scrapeDetail: builder.query({
